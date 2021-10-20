@@ -1,3 +1,35 @@
 <%- include('partials/_header.ejs') %>
+<main class="main-content">
+<form action="/signup" method="post">
+<ul>
+  <li>
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required
+          minlength="4" maxlength="30" size="30">
+  </li>
 
-// TODO create form: name, email, password, confirm password
+  <li>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required
+        minlength="4" maxlength="30" size="30">
+  </li>
+
+  <li>
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required
+        minlength="8" maxlength="30" size="30">
+  </li>
+
+  <li>
+  <label for="cpassword">Confirm password:</label>
+  <input type="password" id="cpassword" name="cpassword" required
+        minlength="8" maxlength="30" size="30">
+  </li>
+
+  <li class="button">
+    <button type="submit">Register</button>
+  </li>
+</ul>
+</form>
+</main>
+<%- include('partials/_footer.ejs') %>

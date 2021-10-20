@@ -1,25 +1,25 @@
 const express = require('express');
 
-const route = express.Router();
+const rootRoutes = express.Router();
 const { UserModel } = require('../model/userModel');
 
-route.get('/', (req, res) => {
+rootRoutes.get('/', (req, res) => {
   res.render('index');
 });
 
-route.get('/about', (req, res) => {
+rootRoutes.get('/about', (req, res) => {
   res.render('about');
 });
 
-route.get('/signin', (req, res) => {
+rootRoutes.get('/signin', (req, res) => {
   res.render('signin');
 });
 
-route.get('/signup', (req, res) => {
+rootRoutes.get('/signup', (req, res) => {
   res.render('signup');
 });
 
-route.post('/signup', async (req, res) => {
+rootRoutes.post('/signup', async (req, res) => {
   try {
     const {
       name, email, password, cpassword,
@@ -48,5 +48,5 @@ route.post('/signup', async (req, res) => {
 
 // TODO use dedicated file for every endpoint
 module.exports = {
-  route,
+  rootRoutes,
 };

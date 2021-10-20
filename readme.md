@@ -1,8 +1,8 @@
 Case study User Authentication System
 
 Sources: 
-https://webcss.hashnode.dev/how-to-setup-nodejs-server-for-authentication
-
+https://webcss.hashnode.dev/how-to-setup-nodejs-server-for-authentication 
+https://developer.mozilla.org/en-US/docs/Learn/Forms/Your_first_form 
 
 Next steps: 
   get authentication data from single page application ?
