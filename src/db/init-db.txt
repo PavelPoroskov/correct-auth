@@ -1,0 +1,25 @@
+// first terminal
+podman run --rm --name case-study-auth \
+  -e MONGO_INITDB_ROOT_USERNAME=mongoadmin \
+  -e MONGO_INITDB_ROOT_PASSWORD=mongoadminPSWD \
+  -e MONGO_INITDB_DATABASE=authdb \
+  --mount type=bind,source=/home/user/02_dev/correct-auth/src/db/database,target=/data/db,relabel=shared \
+  -p 27017:27017 \
+  mongo
+
+// second terminal
+podman exec -it case-study-auth bash
+mongo --username mongoadmin --password mongoadminPSWD
+
+use authdb
+
+db.createUser({ user:"authuser", 
+                pwd:"authuserPSWD", 
+                roles:[ { role:"readWrite", 
+                          db:"authdb" 
+                        } ], 
+                mechanisms:[ "SCRAM-SHA-1"] 
+              })
+
+`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@localhost/${process.env.MONGO_DB}`
+MONGO_URL=mongodb://authuser:authuserPSWD@localhost/authdb

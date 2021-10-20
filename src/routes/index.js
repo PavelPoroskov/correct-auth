@@ -25,6 +25,22 @@ rootRoutes.post('/signup', async (req, res) => {
       name, email, password, cpassword,
     } = req.body;
 
+    if (!name) {
+      throw new Error('Name required!');
+    }
+
+    if (!email) {
+      throw new Error('Email required!');
+    }
+
+    if (!password) {
+      throw new Error('Password required!');
+    }
+
+    if (!cpassword) {
+      throw new Error('Confirm password required!');
+    }
+
     if (password !== cpassword) {
       throw new Error('Password do not match!');
     }
@@ -40,9 +56,13 @@ rootRoutes.post('/signup', async (req, res) => {
       password,
     });
     await registerUser.save();
+
+    // in browser url after success is 'http://localhost:8080/signup'
+    // TODO redirect to index or to congratulations
     res.status(201).render('index');
   } catch (error) {
-    res.status(400).send('error:-', error);
+    console.log(error);
+    res.status(400).send(`error: ${error.message}`);
   }
 });
 

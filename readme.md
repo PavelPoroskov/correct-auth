@@ -20,3 +20,5 @@ Next steps:
     mutation signin(input: UserSignin) {
       token
     }
+
+  start db and server together: docker-compose or 

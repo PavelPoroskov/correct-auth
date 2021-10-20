@@ -12,11 +12,12 @@ const app = express();
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
-app.use('/', rootRoutes);
-
+app.use(express.urlencoded({ extended: false }));
 app.use('/css', express.static(path.join(__dirname, '/src/assets/css')));
 app.use('/js', express.static(path.join(__dirname, '/src/assets/js')));
 app.use('/img', express.static(path.join(__dirname, '/src/assets/img')));
+
+app.use('/', rootRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running in localhost:${PORT}`);
