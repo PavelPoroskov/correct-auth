@@ -11,7 +11,6 @@ Next steps:
   type script && es-modules
   2FA
   anti brute force
-  error user email or password are incorrect
   user change password
   graphql api for authentication?
     mutation signup(input: UserSignup) {
@@ -22,3 +21,11 @@ Next steps:
     }
 
   start db and server together: docker-compose or 
+
+  token
+    token regenerate
+      from user side?
+
+script init
+  generate db username and password
+  generate token secret

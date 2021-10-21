@@ -1,6 +1,7 @@
 const path = require('path');
 const dotenv = require('dotenv');
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const { connectDb } = require('./src/db/connection');
 const { rootRoutes } = require('./src/routes');
 
@@ -13,6 +14,7 @@ app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use('/css', express.static(path.join(__dirname, '/src/assets/css')));
 app.use('/js', express.static(path.join(__dirname, '/src/assets/js')));
 app.use('/img', express.static(path.join(__dirname, '/src/assets/img')));

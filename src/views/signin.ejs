@@ -1,3 +1,24 @@
 <%- include('partials/_header.ejs') %>
-
-// TODO create form email and password
+<main class="main-content">
+  <form action="/signin" method="post">
+  <ul>
+    <li>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required
+          minlength="4" maxlength="30" size="30">
+    </li>
+  
+    <li>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required
+          minlength="8" maxlength="30" size="30">
+    </li>
+  
+    <li class="button">
+      <button type="submit">Signin</button>
+    </li>
+  </ul>
+  </form>
+  </main>
+  <%- include('partials/_footer.ejs') %>
+  
