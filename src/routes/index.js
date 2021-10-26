@@ -1,9 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const { COOKIE_AUTH_EXPIRATION } = require('../config/constants');
 const { UserModel } = require('../model/userModel');
 const { authcheck } = require('../controller/authcheck');
 const { addDataToError } = require('../utils/errors');
+const tokenApi = require('../utils/tokenApi');
 
 const rootRoutes = express.Router();
 
@@ -12,7 +12,6 @@ rootRoutes.get('/', (req, res) => {
 });
 
 rootRoutes.get('/about', authcheck, (req, res) => {
-  console.log(`The cookie is >>> ${req.cookies.auth}`);
   res.render('about');
 });
 
@@ -32,12 +31,12 @@ rootRoutes.post('/signin', async (req, res) => {
       throw new Error('Password required!');
     }
 
-    const userRegistration = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
 
-    const isEmailRegistered = !!userRegistration;
+    const isEmailRegistered = !!user;
     const isPasswordCorrect = isEmailRegistered && await bcrypt.compare(
       password,
-      userRegistration.password,
+      user.password,
     );
 
     if (!(isEmailRegistered && isPasswordCorrect)) {
@@ -49,10 +48,12 @@ rootRoutes.post('/signin', async (req, res) => {
       });
     }
 
-    const token = await userRegistration.generateAuthToken();
+    const { token, expires } = await tokenApi.generateAuthToken(user);
+    user.addToken({ token, expires });
+    await user.save();
 
     res.cookie('auth', token, {
-      expires: new Date(Date.now() + COOKIE_AUTH_EXPIRATION),
+      expires,
       httpOnly: true,
     });
     res.render('index');
@@ -103,16 +104,17 @@ rootRoutes.post('/signup', async (req, res) => {
       });
     }
 
-    const registerUser = new UserModel({
+    const user = new UserModel({
       name,
       email,
       password: await bcrypt.hash(password, 12),
     });
-    const token = await registerUser.generateAuthToken();
-    await registerUser.save();
+    const { token, expires } = await tokenApi.generateAuthToken(user);
+    user.addToken({ token, expires });
+    await user.save();
 
     res.cookie('auth', token, {
-      expires: new Date(Date.now() + COOKIE_AUTH_EXPIRATION),
+      expires,
       httpOnly: true,
     });
     // in browser url after success is 'http://localhost:8080/signup'

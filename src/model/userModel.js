@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 
 const userSchema = mongoose.Schema({
   name: {
@@ -20,30 +19,22 @@ const userSchema = mongoose.Schema({
       type: String,
       required: true,
     },
+    expires: {
+      type: Date,
+      required: true,
+    },
   }],
 });
 
 // eslint-disable-next-line func-names
-userSchema.methods.generateAuthToken = async function () {
-  try {
-    const token = await jwt.sign(
-      {
-        // eslint-disable-next-line no-underscore-dangle
-        _id: this._id.toString(),
-      },
-      process.env.JWT_TOKEN_SECRET,
-    );
-
-    // add token into the database
-    // TODO remove old(expired) tokens
-    this.tokens = this.tokens.concat({ token });
-    await this.save();
-
-    return token;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+userSchema.methods.addToken = async function ({ token, expires }) {
+  const nowDate = new Date();
+  this.tokens = this.tokens
+    .concat({
+      token,
+      expires,
+    })
+    .filter((tokenData) => nowDate < tokenData.expires);
 };
 
 module.exports = {

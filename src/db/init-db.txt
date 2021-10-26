@@ -23,3 +23,5 @@ db.createUser({ user:"authuser",
 
 `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@localhost/${process.env.MONGO_DB}`
 MONGO_URL=mongodb://authuser:authuserPSWD@localhost/authdb
+
+db.users.find().pretty()
