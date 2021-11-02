@@ -1,3 +1,4 @@
 node_modules
 src/db/database
 config.env
+*.env

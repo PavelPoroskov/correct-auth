@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 
 const connectDb = async () => {
+  const {
+    MONGO_USER, MONGO_PASSWORD, MONGO_HOST, MONGO_DB,
+  } = process.env;
+  const MONGO_URL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}/${MONGO_DB}`;
+
   try {
     const con = await mongoose.connect(
-      process.env.MONGO_URL,
+      MONGO_URL,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
